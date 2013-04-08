@@ -1,6 +1,9 @@
 EvilHangman2::Application.routes.draw do
+  get "game/index"
+
   resources :users
 
+  root :to => 'game#index', :as => 'game'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
