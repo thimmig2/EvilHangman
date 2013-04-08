@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @history_entry.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_history_entry_path(@history_entry) %> |
+<%= link_to 'Back', history_entries_path %>
