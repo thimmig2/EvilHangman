@@ -1,7 +1,9 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+User.delete_all
+
+User.create(:username => "firstUser",
+            :password => "shouldBeHashed",
+            :profile_image_url => "")
+
+User.create(:username => "randomGuy",
+            :password => "hashedPass",
+            :profile_image_url => "http://www.nawang.com/Photos/10Logos/Profile_LOGO.jpg")
