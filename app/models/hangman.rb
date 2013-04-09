@@ -33,7 +33,7 @@ class Hangman
   attr_reader :gameOver
 
   def initialize(numberOfGuesses = 26)
-    @numberOfGuesses = numberOfGuesses
+    @numberOfGuesses = numberOfGuesses  # defaults to 26
 
     @dictionary
     @wordLength = -1
@@ -45,14 +45,32 @@ class Hangman
 
 
   def guessLetter(letter)
-    findEvilWords(letter).each do |index|
-      @wordClass[index] = letter
+    if @guessedLetters.include? letter
+      puts "You already guessed that number stupid!"
+      return
     end
 
     @guessedLetters.push letter
+    letterIndexes = findEvilWords(letter)
+
+    # check if letter was used at all
+    if letterIndexes.length > 0
+      letterIndexes.each do |index|
+        @wordClass[index] = letter
+      end
+    else
+      printIncorrect
+    end
 
     if @guessedLetters.length >= @numberOfGuesses
       @gameOver = true
+      puts "You ran out of guesses loser!"
+    end
+
+    # all letters have been filled in
+    unless @wordClass.include? nil
+      @gameOver = true
+      puts "You won after " + @guessedLetters.length.to_s + "guesses!"
     end
   end
 
@@ -66,7 +84,6 @@ class Hangman
       if value.length > max
         max = value.length
         maxKey = key
-        puts key
       end
     end
 
@@ -102,8 +119,6 @@ class Hangman
     @dictionary.each_with_index do |word, index|
 
       wordClasses.keys.each do |letterSpots|
-        addWord = true
-
         # check that letter at each index is the guessed letter
         letterIndex = 0
         tempArray = Array.new
@@ -141,7 +156,18 @@ class Hangman
     puts word
   end
 
+  def printIncorrect
+    print "Incorrect Guesses : "
+      @guessedLetters.each do |letter|
+        unless @wordClass.include? letter
+          print letter + " "
+        end
+      end
+    puts ""
+  end
+
   def startNewGame(debugWordLength = nil)
+    puts "You are about to embark on an arduous journey, good luck my friend, you will need it. Haha..hahaa...hahahahahah\n\n"
     oldLength = @wordLength
 
     if debugWordLength == nil
