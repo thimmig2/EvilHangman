@@ -14,9 +14,9 @@ class GameController < ApplicationController
 
     until game.gameOver
       # Read user input from view
-      if letter =~ /\w{1}/i
+      if letter =~ /\w{1}/
         # guessLetter returns number of times letter was used in word 0 <= times <= wordLength
-        timesUsed = game.guessLetter(letter)
+        timesUsed = game.guessLetter(letter.downcase)
       elsif
         puts "Invalid Input"
       end
