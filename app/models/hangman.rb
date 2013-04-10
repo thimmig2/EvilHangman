@@ -27,10 +27,13 @@ class Hangman
   @@dictionaryFileName = "dictionary"
   @@LENGTH_RANGE = 5..15 # 23 is the longest word in dictionary
 
+  attr_reader :wordClass
   attr_reader :wordLength
   attr_reader :guessedLetters
-  attr_reader :wordClass
+
+=begin
   attr_reader :gameOver
+=end
 
   def initialize(numberOfGuesses = 26)
     @numberOfGuesses = numberOfGuesses  # defaults to 26
@@ -43,7 +46,7 @@ class Hangman
     @gameOver = true
   end
 
-
+  # returns number of times letter was used in word
   def guessLetter(letter)
     if @guessedLetters.include? letter
       puts "You already guessed that number stupid!"
@@ -58,8 +61,6 @@ class Hangman
       letterIndexes.each do |index|
         @wordClass[index] = letter
       end
-    else
-      printIncorrect
     end
 
     if @guessedLetters.length >= @numberOfGuesses
@@ -72,10 +73,13 @@ class Hangman
       @gameOver = true
       puts "You won after " + @guessedLetters.length.to_s + "guesses!"
     end
+
+    letterIndexes.length
   end
 
   # Finds most unlikely words to be guessed based on letter
-  def findEvilWords(letter)
+  # returns the indexs of this letter if there are any
+   def findEvilWords(letter)
     max = 0
     maxKey = []
 
@@ -90,7 +94,6 @@ class Hangman
     @dictionary = wordClasses[maxKey]
     maxKey
   end
-
 
   def buildWordClasses(letter, debugWordClass = nil)
 
@@ -139,33 +142,6 @@ class Hangman
     wordClasses.reject {|key, value| value.length == 0}
   end
 
-  def printWordsLeft
-    puts @dictionary.length.to_s + " words left. " + @dictionary.to_s
-    @dictionary.to_s
-  end
-
-  def printWordClass
-    word = ""
-    @wordClass.each do |letter|
-      if letter == nil
-        word += "_ "
-      else
-        word += letter + " "
-      end
-    end
-    puts word
-  end
-
-  def printIncorrect
-    print "Incorrect Guesses : "
-      @guessedLetters.each do |letter|
-        unless @wordClass.include? letter
-          print letter + " "
-        end
-      end
-    puts ""
-  end
-
   def startNewGame(debugWordLength = nil)
     puts "You are about to embark on an arduous journey, good luck my friend, you will need it. Haha..hahaa...hahahahahah\n\n"
     oldLength = @wordLength
@@ -197,18 +173,41 @@ class Hangman
     dictIn.close()
   end
 
-end
+  def printWordsLeft
+    puts @dictionary.length.to_s + " words left. " + @dictionary.to_s
+    @dictionary.to_s
+  end
 
+  def printWordClass
+    word = ""
+    @wordClass.each do |letter|
+      if letter == nil
+        word += "_ "
+      else
+        word += letter + " "
+      end
+    end
+    puts word
+  end
 
-game = Hangman.new
-game.startNewGame(5)
-until game.gameOver
-  game.printWordsLeft
-  game.printWordClass
+  def printIncorrect
+    print "Incorrect Guesses : "
+      @guessedLetters.each do |letter|
+        unless @wordClass.include? letter
+          print letter + " "
+        end
+      end
+    puts ""
+  end
 
-  print "Guess a letter: "
-  letter = gets.strip
-  game.guessLetter(letter)
+  def getCorrectGuesses
+    wordClass.uniq
+  end
+
+  def getWrongGuesses
+    guessedLetters - self.getCorrectGuesses
+  end
+
 end
 
 
