@@ -120,17 +120,28 @@ class Hangman
     end
 
     @dictionary.each_with_index do |word, index|
-
+      # for each word in the dictionary
       wordClasses.keys.each do |letterSpots|
         # check that letter at each index is the guessed letter
-        letterIndex = 0
-        tempArray = Array.new
-        until letterIndex == word.length
-          tempArray.push letterIndex if word[letterIndex] == letter
-          letterIndex += 1
+        index = 0
+        # keep track of unique letters in the word that havent been guessed yet
+        #   (we want to eliminate words that have more letters to guess than guesses left)
+        uniqueLetters = Set.new
+        letterIndexes = Array.new
+        until index == word.length
+          if word[index] == letter
+            letterIndexes.push index
+          else
+            # check if the current letter has been guessed yet
+            unless word[index] == @wordClass[index]
+              uniqueLetters.add word[index]
+            end
+          end
+          index += 1
         end
 
-        if letterSpots.eql?(tempArray)   # means passed all index lookups
+        # means passed all index lookups and the player has enough guesses left to get the word
+        if letterSpots.eql?(letterIndexes) && uniqueLetters.size <= (@guessedLetters.length - @numberOfGuesses)
           wordClasses[letterSpots].push word    # add it to this word class
           break
         end

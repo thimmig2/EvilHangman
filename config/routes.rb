@@ -1,13 +1,12 @@
 EvilHangman2::Application.routes.draw do
+  resources :users
   resources :history_entries
-
-
   resources :sessions
 
 
   get "game/index"
 
-  resources :users
+
 
   root :to => 'game#index', :as => 'game'
 

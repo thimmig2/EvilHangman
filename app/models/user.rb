@@ -6,6 +6,6 @@ class User < ActiveRecord::Base
   }
 
   has_many :history_entries, :dependent => :destroy
-  has_one :session
+  has_one :session, :dependent => :destroy
   attr_accessible :id, :password, :profile_image_url, :username
 end
