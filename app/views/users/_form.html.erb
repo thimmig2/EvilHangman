@@ -11,19 +11,30 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.text_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :profile_image_url %><br />
-    <%= f.text_field :profile_image_url %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <fieldset>
+  <legend>Enter User Details</legend>
+      <div>
+        <%= f.label :username %><br />
+        <%= f.text_field :username, :size => 40 %>
+      </div>
+
+      <div>
+        <%= f.label :password, 'Password' %><br />
+        <%= f.text_field :password, :size => 40 %>
+      </div>
+
+        <div>
+            <%= f.label :password_confirmation, 'Confirm' %><br />
+            <%= f.text_field :password_confirmation, :size => 40 %>
+        </div>
+
+      <div>
+        <%= f.label :profile_image_url %><br />
+        <%= f.text_field :profile_image_url %>
+      </div>
+
+        <div>
+          <%=  f.submit %>
+        </div>
+  </fieldset>
 <% end %>

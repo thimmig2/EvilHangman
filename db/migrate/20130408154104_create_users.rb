@@ -2,7 +2,8 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
       t.string :username
-      t.text :password
+      t.string :hashedPassword
+      t.string :salt
       t.string :profile_image_url
 
       t.timestamps
