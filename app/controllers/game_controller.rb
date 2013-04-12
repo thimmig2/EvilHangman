@@ -2,7 +2,7 @@ class GameController < ApplicationController
   def index
   end
 
-
+   # temp
   def runGame
     numberOfGuesses = 20
     game = Hangman.new(numberOfGuesses)
