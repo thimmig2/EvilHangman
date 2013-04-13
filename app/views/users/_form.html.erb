@@ -1,8 +1,8 @@
+
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -12,29 +12,29 @@
   <% end %>
 
   <fieldset>
-  <legend>Enter User Details</legend>
-      <div>
-        <%= f.label :username %><br />
-        <%= f.text_field :username, :size => 40 %>
-      </div>
+  <legend>Enter User Details</legend>	
+      		<div class = "span12">
+       		 <%= f.label :username %><br />
+        	<%= f.text_field :username, :size => 40 %>
+      		</div>
 
-      <div>
-        <%= f.label :password, 'Password' %><br />
-        <%= f.text_field :password, :size => 40 %>
-      </div>
+      		<div class = "span12">
+       		 <%= f.label :password, 'Password' %><br />
+       		 <%= f.text_field :password, :size => 40 %>
+     		 </div>
 
-        <div>
-            <%= f.label :password_confirmation, 'Confirm' %><br />
-            <%= f.text_field :password_confirmation, :size => 40 %>
-        </div>
+        	<div class = "span12">
+            	<%= f.label :password_confirmation, 'Confirm' %><br /> 
+            	<%= f.text_field :password_confirmation, :size => 40 %>
+      	  	</div>
 
-      <div>
-        <%= f.label :profile_image_url %><br />
-        <%= f.text_field :profile_image_url %>
-      </div>
+      		<div class = "span12">
+        	<%= f.label :profile_image_url %><br />
+        	<%= f.text_field :profile_image_url %>
+     		</div>
 
-        <div>
-          <%=  f.submit %>
-        </div>
-  </fieldset>
+        	<div class = "span12">
+          	<%=  f.submit %>
+       	 	</div>
+</fieldset>
 <% end %>

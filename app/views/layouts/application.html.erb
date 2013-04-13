@@ -5,15 +5,18 @@
   <%= stylesheet_link_tag "bootstrap", :media => "all" %>
   <%= javascript_include_tag "bootstrap" %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "bootstrap" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-<% if session[:user_id] %>
+<div class="container">
+<%= yield %> 
+  <% if session[:user_id] %>
     <br/>
     <%= button_to 'Logout', logout_path, :method => :delete %>
-<% end %>
+  <% end %>
+</div>
 </body>
 </html>
