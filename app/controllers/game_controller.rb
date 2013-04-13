@@ -1,5 +1,9 @@
 class GameController < ApplicationController
   def index
+    @user = User.find(session[:user_id])
+    if @user.user_type = 1
+      @user.username = "Anonymous"
+    end
   end
 
   def runGame

@@ -12,7 +12,9 @@ class User < ActiveRecord::Base
   attr_reader  :password
   validate :password_must_be_present
 
-  attr_accessible :username, :password, :password_confirmation, :profile_image_url
+  attr_accessible :username, :password, :password_confirmation, :profile_image_url, :user_type
+
+  has_many :history_entries, :dependent => :destroy
 
   def User.authenticate(username, password)
     if user = find_by_username(username)

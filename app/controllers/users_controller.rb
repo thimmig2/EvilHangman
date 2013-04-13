@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :authorize, :only => [:new, :create, :destroy, :show, :index]
+  skip_before_filter :authorize, :only => [:new, :create, :createAnon, :destroy, :show, :index]
 
   # GET /users
   # GET /users.json
@@ -82,6 +82,23 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+
+  # GET /users/playAnonymously
+  def createAnon
+    @user = User.new({:username => "Anon#{Time.now.to_s}", :password => "anonymous", :password_confirmation => "anonymous", :profile_image_url => "", :user_type => 1})
+
+    respond_to do |format|
+      if @user.save
+        format.html{ redirect_to(loginNew_url(:username => @user.username, :password => @user.password)) }
+        #format.html { redirect_to(game_url, notice: "User #{@user.username} successfully created.") }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 end
