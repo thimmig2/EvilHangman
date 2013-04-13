@@ -12,7 +12,7 @@ EvilHangman2::Application.routes.draw do
   resources :history_entries
 
 
-  get "game/index"
+  get 'hangman' => 'game#hangman'
   root :to => 'game#index', :as => 'game'
 
   # The priority is based upon order of creation:
