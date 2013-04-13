@@ -5,15 +5,17 @@ class User < ActiveRecord::Base
   validates :username, :uniqueness => true
 
   validates :password, :confirmation => true
-  attr_accessor :password_confirmation
-  attr_reader  :password
   validates :password, :length => {
       :minimum => 5
   }
+  attr_accessor :password_confirmation
+  attr_reader  :password
   validate :password_must_be_present
 
+  attr_accessible :username, :password, :password_confirmation, :profile_image_url
+
   def User.authenticate(username, password)
-    if user = find_by_name(username)
+    if user = find_by_username(username)
       if user.hashed_password == encrypt_password(password, user.salt)
         user
       end
@@ -41,9 +43,4 @@ class User < ActiveRecord::Base
     def generate_salt
       self.salt = self.object_id.to_s + rand.to_s
     end
-
-
-  has_many :history_entries, :dependent => :destroy
-  has_one :session, :dependent => :destroy
-  attr_accessible :id, :profile_image_url, :username
 end

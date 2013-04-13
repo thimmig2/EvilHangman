@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130408183701) do
+ActiveRecord::Schema.define(:version => 20130412230126) do
 
   create_table "history_entries", :force => true do |t|
     t.integer  "user_id"
@@ -19,17 +19,14 @@ ActiveRecord::Schema.define(:version => 20130408183701) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "sessions", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "username"
-    t.text     "password"
+    t.string   "hashed_password"
+    t.string   "salt"
     t.string   "profile_image_url"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "user_type",         :default => 0, :null => false
   end
 
 end
