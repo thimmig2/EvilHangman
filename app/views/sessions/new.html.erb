@@ -1,0 +1,30 @@
+<div class="login_form">
+  <% if params[:alert] %>
+      <p id="notice"><%= params[:alert] %></p>
+  <% end %>
+
+  <%= form_tag do %>
+      <fieldset>
+        <legend>Please Log In</legend>
+
+        <div>
+          <label for="username">Name:</label>
+          <%= text_field_tag :username, params[:name] %>
+        </div>
+
+        <div>
+          <label for="password">Password:</label>
+          <%= password_field_tag :password, params[:password] %>
+        </div>
+
+        <div>
+          <%= submit_tag "Login" %>
+        </div>
+
+      </fieldset>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to 'Register', new_user_path(), :method => 'GET' %>
+</div>
