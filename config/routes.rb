@@ -7,6 +7,8 @@ EvilHangman2::Application.routes.draw do
   end
 
 
+  get 'playAnonymously' => 'users#createAnon'
+
 
   resources :users
   resources :history_entries

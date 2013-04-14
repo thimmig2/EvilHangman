@@ -9,11 +9,19 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to game_url
     else
-      redirect_to login_url :alert => "Invalid username/password combination for #{params[:username]} "
+      redirect_to login_url :alert => "Invalid username/password combination"
     end
   end
 
   def destroy
+=begin
+    user = User.find(session[:user_id])
+
+    if user.user_type == 1
+      user.destroy
+    end
+=end
+
     session[:user_id] =  nil
     redirect_to login_url, :notice => "Logged Out"
   end

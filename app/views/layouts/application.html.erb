@@ -2,27 +2,29 @@
 <html>
 <head>
   <title>EvilHangman2</title>
-  <%= stylesheet_link_tag "bootstrap", :media => "all" %>
-  <%= javascript_include_tag "bootstrap" %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
+  <%= stylesheet_link_tag    "my_css", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "bootstrap" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="container-fluid">
-<div class = "row-fluid">
-<div class = "span12">
-<div class = "hero-unit">
-<%= yield %> 
-  <% if session[:user_id] %>
+<% if session[:user_id] %>
     <br/>
-    <%= button_to 'Logout', logout_path, :method => :delete %>
-  <% end %>
-</div>
-</div>
-</div>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="#">Evil Hangman</a>
+        <ul class="nav">
+          <li><%= link_to 'Home', game_path %></li>
+          <li><%= link_to 'New Game', hangman_path(), :method => 'GET' %></li>
+          <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+        </ul>
+      </div>
+    </div>
+<% end %>
+<div id="main">
+  <%= yield %>
 </div>
 </body>
 </html>
