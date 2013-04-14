@@ -1,13 +1,20 @@
 EvilHangman2::Application.routes.draw do
+  controller :sessions do
+    get 'login' => :new
+    get 'loginNew' => :create
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
+
+
+  get 'playAnonymously' => 'users#createAnon'
+
+
   resources :users
   resources :history_entries
-  resources :sessions
 
 
-  get "game/index"
-
-
-
+  get 'hangman' => 'game#hangman'
   root :to => 'game#index', :as => 'game'
 
   # The priority is based upon order of creation:

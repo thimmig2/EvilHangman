@@ -1,8 +1,11 @@
 class GameController < ApplicationController
   def index
+    @user = User.find(session[:user_id])
+    if @user.user_type = 1
+      @user.username = "Anonymous"
+    end
   end
 
-   # temp2
   def runGame
     numberOfGuesses = 20
     game = Hangman.new(numberOfGuesses)
@@ -26,6 +29,7 @@ class GameController < ApplicationController
         # if an element is nil it hasnt been revealed yet
         game.wordClass
 
+
         # an array of all letters guessed so far
         game.guessedLetters
         # an array of letters that were correct
@@ -33,6 +37,8 @@ class GameController < ApplicationController
         # an array of letters that were wrong
         game.getWrongGuesses
     end
+
+
 
   end
 end

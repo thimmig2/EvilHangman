@@ -1,5 +1,32 @@
-<h1>New session</h1>
+<div class="login_form">
+  <% if params[:alert] %>
+      <p id="notice"><%= params[:alert] %></p>
+  <% end %>
 
-<%= render 'form' %>
+  <%= form_tag do %>
+      <fieldset>
+        <legend>Log In to Evil Hangman</legend>
 
-<%= link_to 'Back', sessions_path %>
+        <div>
+          <label for="username">Name:</label>
+          <%= text_field_tag :username, params[:name] %>
+        </div>
+
+        <div>
+          <label for="password">Password:</label>
+          <%= password_field_tag :password, params[:password] %>
+        </div>
+
+        <div>
+          <%= submit_tag "Login" %>
+        </div>
+
+      </fieldset>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to 'Register', new_user_path(), :method => 'GET' %>
+  or
+  <%= link_to 'Play Anonymously', playAnonymously_path(), :method => 'GET' %>
+</div>

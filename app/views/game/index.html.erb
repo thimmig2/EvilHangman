@@ -1,2 +1,14 @@
-<h1>Game#index</h1>
-<p>Find me in app/views/game/index.html.erb</p>
+<h1> Welcome
+  <%= @user.username %>
+</h1>
+
+<% if notice %>
+    <p id="notice"><%= notice %></p>
+<% end %>
+
+
+<p>History Goes Here</p>
+
+<div>
+  <%= link_to 'Start New Game', hangman_path(), :method => 'GET' %>
+</div>
