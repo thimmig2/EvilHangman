@@ -1,47 +1,38 @@
 class GameController < ApplicationController
+
   def index
     @user = User.find(session[:user_id])
-    if @user.user_type = 1
+    if @user.user_type == 1
       @user.username = "Anonymous"
     end
   end
 
-  def runGame
+  def new_game
     numberOfGuesses = 20
-    @game = Hangman.new(numberOfGuesses)
+    session[:game] = Hangman.new(numberOfGuesses)
 
     # can provide a wordlength as a parameter
     # if none provided generates a random one
-    wordLength = nil
-    @game.startNewGame(wordLength)
+    wordLength = 2
+    session[:game].startNewGame(wordLength)
 
-    until @game.gameOver
-      # Read user input from view
-      if letter =~ /\w{1}/
-        # guessLetter returns number of times letter was used in word 0 <= times <= wordLength
-        timesUsed = @game.guessLetter(letter.downcase)
-      elsif
-        puts "Invalid Input"
-      end
+    redirect_to guessing_path
+  end
 
-      # functions to use to update view:
-        # an array of letters that represents the word so far
-        # if an element is nil it hasnt been revealed yet
-      @game.wordClass
+  def guessing
+    @game = session[:game]
+  end
 
-
-      # an array of all letters guessed so far
-      @game.guessedLetters
-      # an array of letters that were correct
-      @game.getCorrectGuesses
-      # an array of letters that were wrong
-      @game.getWrongGuesses
+  def guessing_letter
+    @game = session[:game]
+    letter = params[:letter].strip.downcase
+    if letter =~ /[a-z]/
+      # guessLetter returns number of times letter was used in word 0 <= times <= wordLength
+      timesUsed = @game.guessLetter(letter)
+      redirect_to guessing_path(:notice => "Guessed letter #{letter}"), :method => "get"
+    elsif
+     redirect_to guessing_path(:notice => "#{params[:letter]} isn't letter silly."), :method => "get"
     end
-
-    saveHistory
-
-
-
   end
 
   def saveHistory

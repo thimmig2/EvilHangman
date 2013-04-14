@@ -1,0 +1,24 @@
+
+<h1><%= @game.wordClass.to_s %></h1>
+
+<div class="letter_form">
+  <% if params[:notice] %>
+      <p id="notice"><%= params[:notice] %></p>
+  <% end %>
+
+  <%= form_tag do %>
+      <fieldset>
+        <legend>Submit a Letter</legend>
+
+        <div>
+          <label for="letter">Letter:</label>
+          <%= text_field_tag :letter, params[:letter] %>
+        </div>
+
+        <div>
+          <%= submit_tag "Guess" %>
+        </div>
+
+      </fieldset>
+  <% end %>
+</div>
