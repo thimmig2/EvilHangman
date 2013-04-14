@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to game_url
     else
-      redirect_to login_url :alert => "Invalid username/password combination for #{params[:username]} "
+      redirect_to login_url :alert => "Invalid username/password combination"
     end
   end
 
