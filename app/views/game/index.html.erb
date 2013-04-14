@@ -1,12 +1,14 @@
-<h1>Welcome ...username...</h1>
+<h1> Welcome
+  <%= @user.username %>
+</h1>
 
-<% if params[:alert] %>
-    <p class="alert alert-error" id="notice"><%= params[:alert] %></p>
+<% if notice %>
+    <p id="notice"><%= notice %></p>
 <% end %>
 
 
 <p>History Goes Here</p>
 
 <div>
-  da da da oh yeah
+  <%= link_to 'Start New Game', hangman_path(), :method => 'GET' %>
 </div>
