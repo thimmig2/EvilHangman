@@ -27,18 +27,34 @@ class GameController < ApplicationController
       # functions to use to update view:
         # an array of letters that represents the word so far
         # if an element is nil it hasnt been revealed yet
-        game.wordClass
+      game.wordClass
 
 
-        # an array of all letters guessed so far
-        game.guessedLetters
-        # an array of letters that were correct
-        game.getCorrectGuesses
-        # an array of letters that were wrong
-        game.getWrongGuesses
+      # an array of all letters guessed so far
+      game.guessedLetters
+      # an array of letters that were correct
+      game.getCorrectGuesses
+      # an array of letters that were wrong
+      game.getWrongGuesses
     end
+
+    saveHistory game
 
 
 
   end
+
+  def saveHistory(game)
+
+
+    @history_entry = HistoryEntry.new(params[:history_entry])
+
+    if @history_entry.save
+      redirect_to(game_path(), notice: 'History entry was successfully created.')
+    else
+      redirect_to(game_path(), notice: 'Sorry there was adding the game history')
+    end
+  end
+
+
 end
