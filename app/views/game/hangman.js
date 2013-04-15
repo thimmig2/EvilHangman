@@ -1,5 +1,5 @@
 var wordMin = 3
-var wordMax = 15
+var wordMax = 6
 
 function Hangman(numberOfGuesses) {
     if(numberOfGuesses) {
@@ -17,8 +17,8 @@ function Hangman(numberOfGuesses) {
 Hangman.prototype.guessLetter = function(letter) {
     if(this.guessedLetters.indexOf(letter) != -1) {
         alert("You already guessed that stupid!")
+        return 1
     } else {
-        console.log("Here1" + letter)
         this.guessedLetters.push(letter)
 
         var letterIndexes = this.findEvilWords(letter) // Array
@@ -95,7 +95,6 @@ Hangman.prototype.buildWordClasses = function(letter) {
         }
     }
 
-    console.log(wordClasses)
     return wordClasses
 }
 
@@ -161,10 +160,9 @@ Hangman.prototype.initializeDictionary = function(wordLength) {
     }
 }
 
-Hangman.prototype.gameOver = function() {
+Hangman.prototype.isOver = function() {
     if(this.guessedLetters.length >= this.numberOfGuesses) {
         this.gameOver = true
-        // alert game over
     }
 
     if(!inArray(null, this.wordClass)) {
@@ -182,8 +180,8 @@ Hangman.prototype.getGuessedLetters = function() {
     return this.guessedLetters
 }
 
-Hangman.prototype.getWordsLeft = function() {
-    return this.dictionary
+Hangman.prototype.getPossibleWord = function() {
+    return this.dictionary[0]
 }
 
 
@@ -231,16 +229,24 @@ game.startNewGame()
 
 $(document).ready(function() {
 
+    $("#letter").focus()
+    $("#letter").val("")
+
     $("#guess").click(function(e) {
 
-        var guessedLetter = $("#letter").val()
-        if(game.guessLetter(guessedLetter).length > 0){
-            updateView(true)
+        var guessedLetter = $("#letter").val().trim().toLowerCase()
+        $("#letter").val("")
+        if(/^[a-z]{1}$/.test(guessedLetter)) {
+            if(game.guessLetter(guessedLetter) > 0){
+                updateView(true)
+            } else {
+                updateView(false)
+            }
         } else {
-            updateView(false)
+            alert("Unless you were unaware '" + guessedLetter + "' is not a single letter, you should probably go back to elementary school.")
         }
 
-        if(game.gameOver) {
+        if(game.isOver()) {
             finishGame()
         }
 
@@ -300,7 +306,7 @@ function finishGame() {
         won = 1
         alert("Wow, nice job, you are one lucky bastard!")
     } else {
-        alert("Not surprised you lost. Better luck next time chap ;D")
+        alert("Not surprised you lost. Better luck next time chap ;D. Guess you'll never know what your word was, could have been " + game.getPossibleWord() + " though.")
     }
 
     var arguments = {
