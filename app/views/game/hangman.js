@@ -16,7 +16,7 @@ function Hangman(numberOfGuesses) {
 
 Hangman.prototype.guessLetter = function(letter) {
     if(this.guessedLetters.indexOf(letter) != -1) {
-        // error already guessed
+        alert("You already guessed that stupid!")
     } else {
         console.log("Here1" + letter)
         this.guessedLetters.push(letter)
@@ -175,7 +175,7 @@ Hangman.prototype.gameOver = function() {
 }
 
 Hangman.prototype.getWord = function() {
-    return this.wordClass.join("")
+    return this.wordClass
 }
 
 Hangman.prototype.getGuessedLetters = function() {
@@ -232,20 +232,82 @@ game.startNewGame()
 $(document).ready(function() {
 
     $("#guess").click(function(e) {
+
         var guessedLetter = $("#letter").val()
-        game.guessLetter(guessedLetter)
-        $("#word").html(game.getWord())
-        updateView()
+        if(game.guessLetter(guessedLetter).length > 0){
+            updateView(true)
+        } else {
+            updateView(false)
+        }
+
+        if(game.gameOver) {
+            finishGame()
+        }
+
         return false;
     })
 })
 
 
 
-function updateView() {
-    status += 26.0/guesses
-    console.log(status)
-    var pictureNumber = Math.floor(status)
-    var pictureUrl = "assets/hang" + pictureNumber + ".png"
-    $('#hangmanPicture').attr("src", pictureUrl);
+function updateView(usedLetter) {
+    var wordString = ""
+    var wordArray = game.getWord()
+    for(var i=0; i< wordArray.length; i++) {
+        if(wordArray[i] == null) {
+            wordString += "_ "
+        } else {
+            wordString += wordArray[i] + " "
+        }
+    }
+    $("#word").html(wordString)
+
+    var guessedLetters = game.getGuessedLetters()
+    var guessesString = ""
+    for(var i=0; i< guessedLetters.length; i++) {
+        guessesString += guessedLetters[i]
+        if(i < guessedLetters.length - 1) {
+            guessesString += ", "
+        }
+    }
+    $("#guessedLetters").html(guessesString)
+
+    if(usedLetter == false) {
+        status += 26.0/guesses
+        console.log(status)
+        var pictureNumber = Math.floor(status)
+        var pictureUrl = "assets/hang" + pictureNumber + ".png"
+        $('#hangmanPicture').attr("src", pictureUrl);
+    }
+}
+
+function finishGame() {
+    var historySaveUrl = "/save_history?"
+
+    var endWord = ""
+    var wordArray = game.getWord()
+    var win = true
+    for(var i=0; i< wordArray.length; i++) {
+        if(wordArray[i] == null) {
+            endWord += "_"
+            win = false
+        } else {
+            endWord += wordArray[i]
+        }
+    }
+    var won = 0
+    if(win) {
+        won = 1
+        alert("Wow, nice job, you are one lucky bastard!")
+    } else {
+        alert("Not surprised you lost. Better luck next time chap ;D")
+    }
+
+    var arguments = {
+        "word" : endWord,
+        "letters_guessed" : game.getGuessedLetters().join(""),
+        "win" : won
+    }
+    historySaveUrl += $.param(arguments)
+    window.location.replace(historySaveUrl);
 }
