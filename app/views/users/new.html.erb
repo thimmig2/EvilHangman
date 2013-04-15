@@ -1,9 +1,13 @@
-<h1>Create your Evil Hangman account</h1>
+
+<div class="page-header">
+  <h1>Create your Evil Hangman account</h1>
+  <em>Enter your information and click save to start playing!</em>
+</div>
 
 <%= form_for(@user) do |f| %>
 <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user account from being saved:</h2>
+    <div id="error_explanation" class="alert alert-error">
+      <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user account from being saved:</h4>
 
       <ul>
         <% @user.errors.full_messages.each do |msg| %>
@@ -14,7 +18,7 @@
 <% end %>
 
 <fieldset>
-  <legend>Enter your information and click save to start playing!</legend>
+
   <div class="row">
     <div class="span6">
       <span class="label label-info">Username</span><br/><br/>
@@ -41,7 +45,7 @@
   </div>
   <div class="row">
     <div class="span6">
-      <%= button_to 'Back', login_path, :class=> "btn btn-info "%>
+      <%= link_to 'Back', game_path, :class=> "btn btn-info "%>
     </div>
     <div class="span6">
       <%= submit_tag "Save", :class=> "btn btn-info "%>
