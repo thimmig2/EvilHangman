@@ -1,8 +1,8 @@
 <div class="page-header" xmlns="http://www.w3.org/1999/html">
-  <h1> Welcome
-    <%= @user.username %>
-  </h1>
-  <em>This is your Evil Hangman home page. View your game history and stats here or start a new game!</em>
+<h1> Welcome
+  <%= @user.username %>
+</h1>
+<em>This is your Evil Hangman home page. View your game history and stats here or start a new game!</em>
 </div>
 
 <% if notice %>
@@ -16,62 +16,63 @@
       <h3>Your Stats Right Now : </h3>
     </div>
   </div>
+
   <div class="row">
 
-      <div class="span6">
-        <table class="table table-condensed table-hover table-striped">
-          <tbody>
-          <tr>
-            <th>Win Percentage:</th>
-          </tr>
-          <tr>
-            <td><%= @percent %></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Win Percentage:</th>
+        </tr>
+        <tr>
+          <td><%= @percent %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-        <div class="span6">
-          <table class="table table-condensed table-hover table-striped">
-            <tbody>
-            <tr>
-              <th>Total Letters Guessed:</th>
-            </tr>
-            <tr>
-              <td><%= @totalLetters %></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Total Letters Guessed:</th>
+        </tr>
+        <tr>
+          <td><%= @totalLetters %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-    <div class="row">
-        <div class="span6">
-        <table class="table table-condensed table-hover table-striped">
-          <tbody>
-          <tr>
-            <th>Total Games Played:</th>
-          </tr>
-          <tr>
-            <td><%= @totalgames %></td>
-          </tr>
-          </tbody>
-        </table>
-        </div>
-
-      <div class="span6">
-        <table class="table table-condensed table-hover table-striped">
-          <tbody>
-          <tr>
-            <th>Longest Word Guessed:</th>
-          </tr>
-          <tr>
-            <td><%= @longestword %></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="row">
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Total Games Played:</th>
+        </tr>
+        <tr>
+          <td><%= @totalgames %></td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Longest Word Guessed:</th>
+        </tr>
+        <tr>
+          <td><%= @longestword %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <div class="row">
 
@@ -88,7 +89,7 @@
       </table>
     </div>
   </div>
-  
+
   <br/>
 
   <div class="row">
@@ -100,7 +101,7 @@
           <th>User</th>
           <th>Word</th>
           <th>Letters Guessed</th>
-          <th>Win?</th>
+          <th>Status</th>
         </tr>
         <% @historyEntries.each do |entry| %>
             <tr>
@@ -111,7 +112,11 @@
               <% end %>
               <td><%= entry.word.split("").join(" ") %></td>
               <td><%= entry.letters_guessed %></td>
-              <td><%= entry.win %></td>
+              <td><% if(entry.win == 1)%>
+                    <%= "Win" %>
+              <% else %>
+                    <%= "Loss" %>
+              <% end %> </td>
             </tr>
         <% end %>
         </tbody>

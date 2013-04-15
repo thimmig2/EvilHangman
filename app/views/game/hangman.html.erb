@@ -5,22 +5,23 @@
       <p id="notice"><%= params[:notice] %></p>
   <% end %>
 
-  <div><h2 id="word">Let the games begin!</h2></div>
+  <div><h1 id="word">Let the games begin!</h1></div>
   <div><img id="hangmanPicture" src="assets/hang1.png" height="748" width="545"></div>
 
-  <div><h3>used: <span id="guessedLetters">none yet</span> </h3></div>
+  <div><h4>Letters Guessed: <span id="guessedLetters">none yet</span> </h4></div>
 
 
   <form onsubmit="return false;">
       <fieldset>
-        <div>
+        <div class="row">
+        <div class="span3">
           <input id="letter" type="text"></input>
         </div>
 
-        <div>
-         <button id="guess">Guess</button>
+        <div class="span9">
+         <button id="guess" class="btn btn-info">Guess</button>
         </div>
-
+        </div>
       </fieldset>
   </form>
 </div>
