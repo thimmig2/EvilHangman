@@ -1,38 +1,126 @@
 <div class="page-header" xmlns="http://www.w3.org/1999/html">
-  <h1> Welcome
-    <%= @user.username %>
-  </h1>
-  <em>This is your Evil Hangman home page. View your game history and stats here or start a new game!</em>
+<h1> Welcome
+  <%= @user.username %>
+</h1>
+<em>This is your Evil Hangman home page. View your game history and stats here or start a new game!</em>
 </div>
 
 <% if notice %>
     <p id="notice"><%= notice %></p>
+    <br/>
 <% end %>
 
-</br>
 <div class="container">
   <div class="row">
-    <div class="span8">
+    <div class="span12">
+      <h3>Your Stats Right Now : </h3>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="span6">
       <table class="table table-condensed table-hover table-striped">
-        <caption>Game History</caption>
         <tbody>
         <tr>
-          <td>test</td>
-          <td>test</td>
+          <th>Win Percentage:</th>
+        </tr>
+        <tr>
+          <td><%= @percent %></td>
         </tr>
         </tbody>
       </table>
-      <p>The Ohio State University was founded in 1870 as a land-grant university in accordance with the Morrill Act of 1862 under the name of Ohio Agricultural and Mechanical College. Initially, it was thought that one of Ohio's two existing public universities (Ohio University and Miami University) would be designated as the land-grant institution, and each engaged in a vigorous competition to win over the state legislature. At the strong urging of Governor Rutherford B. Hayes, however, it was ultimately decided to establish a new university to be located near the legislature in Columbus. </p>
     </div>
-    <div class="span4">
-      <div class="row">
-          <div class="span2">
-             High Score:
-          </div>
-          <div class="span2">
-             10,000
-          </div>
-      </div>
+
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Total Letters Guessed:</th>
+        </tr>
+        <tr>
+          <td><%= @totalLetters %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Total Games Played:</th>
+        </tr>
+        <tr>
+          <td><%= @totalgames %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Longest Word Guessed:</th>
+        </tr>
+        <tr>
+          <td><%= @longestword %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="span6">
+      <table class="table table-condensed table-hover table-striped">
+        <tbody>
+        <tr>
+          <th>Percentage of Letters Guessed:</th>
+        </tr>
+        <tr>
+          <td><%= @percentletters %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <br/>
+
+  <div class="row">
+    <div class="span12">
+      <table class="table table-condensed table-hover table-striped">
+        <h3>Semi-Competent Games</h3>
+        <tbody>
+        <tr>
+          <th>User</th>
+          <th>Word</th>
+          <th>Letters Guessed</th>
+          <th>Status</th>
+        </tr>
+        <% @historyEntries.each do |entry| %>
+            <tr>
+              <% if(User.find(entry.user_id).user_type == 1)%>
+                  <td><%= "anonymous" %></td>
+              <% else %>
+                  <td><%= User.find(entry.user_id).username %></td>
+              <% end %>
+              <td><%= entry.word.split("").join(" ") %></td>
+              <td><%= entry.letters_guessed %></td>
+              <td><% if(entry.win == 1)%>
+                    <%= "Win" %>
+              <% else %>
+                    <%= "Loss" %>
+              <% end %> </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

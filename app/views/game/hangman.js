@@ -1,5 +1,5 @@
 var wordMin = 3
-var wordMax = 15
+var wordMax = 6
 
 function Hangman(numberOfGuesses) {
     if(numberOfGuesses) {
@@ -17,6 +17,7 @@ function Hangman(numberOfGuesses) {
 Hangman.prototype.guessLetter = function(letter) {
     if(this.guessedLetters.indexOf(letter) != -1) {
         alert("You already guessed that stupid!")
+        return 1
     } else {
         this.guessedLetters.push(letter)
 
@@ -159,7 +160,7 @@ Hangman.prototype.initializeDictionary = function(wordLength) {
     }
 }
 
-Hangman.prototype.isGameOver = function() {
+Hangman.prototype.isOver = function() {
     if(this.guessedLetters.length >= this.numberOfGuesses) {
         this.gameOver = true
     }
@@ -180,7 +181,7 @@ Hangman.prototype.getGuessedLetters = function() {
 }
 
 Hangman.prototype.getPossibleWord = function() {
-    this.dictionary[0]
+    return this.dictionary[0]
 }
 
 
@@ -245,7 +246,7 @@ $(document).ready(function() {
             alert("Unless you were unaware '" + guessedLetter + "' is not a single letter, you should probably go back to elementary school.")
         }
 
-        if(game.isGameOver) {
+        if(game.isOver()) {
             finishGame()
         }
 
