@@ -5,81 +5,91 @@ class GameController < ApplicationController
     if @user.user_type == 1
       @user.username = "Anonymous"
     end
+
+    @historyEntries = HistoryEntry.all
+    @historyEntries.sort! { |a,b| b.word.split("").reject{|letter| letter.eql?("_")}.length  <=> a.word.split("").reject{|letter| letter.eql?("_")}.length }
+
+    if HistoryEntry.find_all_by_user_id(session[:user_id]).length > 0
+      @percent=winPercent
+      @totalLetters=totalLettersGuessed
+      @totalgames=totalGamesPlayed
+      @longestword=longestWordGuessed
+      @percentletters=lettersGuessedPercent
+    else
+      @percent=0
+      @totalLetters=0
+      @totalgames=0
+      @longestword=0
+      @percentletters=0
+    end
   end
 
   def winPercent
-    user = HistoryEntries.find(:all, :user_id => :session[user_id])
+    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
     win=0.0
     loss=0.0
-    user.each do |i|
-      if(user[i].win == 1)
+    userHistory.each do |entry|
+      if(entry.win == 1)
         win=win+1.0
       else
         loss=loss+1.0
       end
     end
     percent=(win/(win+loss))
-    percent
+    percent.to_s + "%"
   end
 
 
   def totalLettersGuessed
-    user = HistoryEntries.find(:all, :user_id => :session[user_id])
-    totalLetters=0
-    hold = ""
-    user.each do |i|
-      hold = user[i].letters_guessed.split(//)
+    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+    totalLetters=0.0
+    userHistory.each do |entry|
+      hold = entry.letters_guessed.split(//)
       hold = hold.reject{ |element| element=="_"}
-      totalLetters=totalLetters+user[i].hold.length
+      totalLetters=totalLetters+hold.length
     end
     totalLetters
   end
 
 
   def totalGamesPlayed
-    user = HistoryEntries.find(:all, :user_id => :session[user_id])
-    totalGames=user.length
-    totalGames
+    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+    userHistory.length
   end
 
 
   def longestWordGuessed
-    user = HistoryEntries.find(:all, :user_id => :session[user_id])
+    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
     max = 0
     longestWord = ""
     hold = ""
-    user.each do |i|
-      hold = user[i].word.split(//)
+    userHistory.each do |entry|
+      hold = entry.word.split(//)
       if !hold.include? '_'
-        if user[i].word.length > max
-          max=user[i].word.length
-          longestWord = user[i].word
+        if entry.word.length > max
+          max=entry.word.length
+          longestWord = entry.word
         end
       end
     end
-    longestWord
+    return longestWord if longestWord.length > 0
+    "none"
   end
 
 
   def correctLettersGuessed
-    hold = ""
-    hold2 = ""
-    user = HistoryEntries.find(:all, :user_id => :session[user_id])
-    correct=0
-    user.each do |i|
-      hold2 = user[i].word.split(//)
-      hold = hold2.reject { |element| element=="_"}
-      correct=correct+hold.length
+    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+    correct=0.0
+    userHistory.each do |entry|
+      correct += entry.word.split(//).reject{|letter| letter.eql?("_")}.length
     end
     correct
   end
 
 
   def lettersGuessedPercent
-    right = correctLettersGuessed
-    total = totalLettersGuessed
-    lettersGuessedPerc = (correctLetters/total)
-    lettersGuessedPerc
+    percent = correctLettersGuessed / totalLettersGuessed * 100
+    percent.round(1).to_s + "%"
   end
 
 
