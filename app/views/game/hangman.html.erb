@@ -1,24 +1,27 @@
 
-<h1><%= @game.wordClass.to_s %></h1>
+<h1>Evil Hangman</h1>
 
 <div class="letter_form">
   <% if params[:notice] %>
       <p id="notice"><%= params[:notice] %></p>
   <% end %>
 
-  <%= form_tag do %>
-      <fieldset>
-        <legend>Submit a Letter</legend>
+  <div><h2>W_rd</h2></div>
+  <div><img id="hangmanPicture" src="assets/hang1.png" height="748" width="545"></div>
+  <div><h3>used: <span id="guessedLetters">a, b, c, d, e</span> </h3></div>
 
+
+  <form>
+      <fieldset>
         <div>
           <label for="letter">Letter:</label>
           <%= text_field_tag :letter, params[:letter] %>
         </div>
 
         <div>
-          <%= submit_tag "Guess" %>
+          <input type="submit" value="Guess" />
         </div>
 
       </fieldset>
-  <% end %>
+  </form>
 </div>

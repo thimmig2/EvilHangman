@@ -26,11 +26,10 @@ class HistoryEntriesController < ApplicationController
   # GET /history_entries/new
   # GET /history_entries/new.json
   def new
-    @history_entry = HistoryEntry.new
+    @history_entry = HistoryEntry.new(params[:word], params[:guessed])
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @history_entry }
+      format.html redirect_to :game_path, notice: "Your history has been saved!"
     end
   end
 
