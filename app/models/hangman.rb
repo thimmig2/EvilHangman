@@ -21,7 +21,6 @@ end
 
 =end
 
-
 class Hangman
 
   @@dictionaryFileName = "dictionary"
@@ -133,9 +132,7 @@ class Hangman
             letterIndexes.push index
           else
             # check if the current letter has been guessed yet
-            unless word[index] == @wordClass[index]
-              uniqueLetters.add word[index]
-            end
+            uniqueLetters.add word[index] unless word[index] == @wordClass[index]
           end
           index += 1
         end

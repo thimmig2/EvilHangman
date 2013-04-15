@@ -14,13 +14,6 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-=begin
-    user = User.find(session[:user_id])
-
-    if user.user_type == 1
-      user.destroy
-    end
-=end
 
     session[:user_id] =  nil
     redirect_to login_url, :notice => "Logged Out"
