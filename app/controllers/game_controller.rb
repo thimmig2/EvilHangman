@@ -14,7 +14,7 @@ class GameController < ApplicationController
   end
 
   def save_history
-    @history_entry = HistoryEntry.new({:user_id => session[:user_id], :word => params[:word], :letters_guessed => @game.guessedLetters.join})
+    @history_entry = HistoryEntry.new({:user_id => session[:user_id], :word => params[:word], :letters_guessed => params[:letters_guessed], :win => params[:win]})
 
     if @history_entry.save
       redirect_to(game_path(), notice: 'History entry was successfully created.')

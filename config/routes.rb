@@ -8,7 +8,7 @@ EvilHangman2::Application.routes.draw do
 
   controller :game do
     get 'hangman' => :hangman
-    post 'save_history' => :save_history
+    get 'save_history' => :save_history
   end
 
   get 'playAnonymously' => 'users#createAnon'
