@@ -5,6 +5,8 @@ class GameController < ApplicationController
     if @user.user_type == 1
       @user.username = "Anonymous"
     end
+
+    @entries = HistoryEntry.all
   end
 
 
