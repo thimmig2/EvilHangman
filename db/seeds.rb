@@ -1,6 +1,3 @@
 User.delete_all
 
-User.new(:username => "testAccount",
-  :password => "tester",
-  :password_confirmation => "tester"
-)
+HistoryEntry.create(:user_id => 1, :word => "this", :letters_guessed => "thisale", :win => 1)

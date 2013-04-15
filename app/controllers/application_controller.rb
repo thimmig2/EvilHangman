@@ -4,15 +4,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-
-    def current_session
-      Session.find(session[:session_id])
-    rescue ActiveRecord::RecordNotFound
-      userSession = Session.create
-      session[:session_id] = userSession.id
-      userSession
-    end
-
   protected
     def authorize
       unless User.find_by_id(session[:user_id])
