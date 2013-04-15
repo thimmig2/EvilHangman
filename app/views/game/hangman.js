@@ -18,6 +18,7 @@ Hangman.prototype.guessLetter = function(letter) {
     if(this.guessedLetters.indexOf(letter) != -1) {
         // error already guessed
     } else {
+        console.log("Here1" + letter)
         this.guessedLetters.push(letter)
 
         var letterIndexes = this.findEvilWords(letter) // Array
@@ -42,7 +43,6 @@ function inArray(element, array) {
 
 Hangman.prototype.findEvilWords = function(letter) {
     var wordClasses = this.buildWordClasses(letter)
-    console.log(wordClasses)
     var max = 0
     var maxKey = ""
 
@@ -54,7 +54,6 @@ Hangman.prototype.findEvilWords = function(letter) {
             }
         }
     }
-    console.log(maxKey)
     this.dictionary = wordClasses[maxKey]
     return maxKey
 }
@@ -224,25 +223,29 @@ function combinations(str) {
     return fn("", str, []);
 }
 
-
-window.status = 1
-window.guesses = 13
-var game = new Hangman(window.guesses)
+var status = 1.0
+var guesses = 13.0
+var game = new Hangman(guesses)
 game.startNewGame()
 
 
-$("form").submit(function(e) {
-    guessedLetter = $("#letter").value
-    game.guessLetter(guessedLetter)
-    updateView()
-    console.log("here");
-    return false;
+$(document).ready(function() {
+
+    $("#guess").click(function(e) {
+        var guessedLetter = $("#letter").val()
+        game.guessLetter(guessedLetter)
+        $("#word").html(game.getWord())
+        updateView()
+        return false;
+    })
 })
 
 
+
 function updateView() {
-    window.status += 26.0/window.guesses
-    var pictureNumber = floor(window.status)
+    status += 26.0/guesses
+    console.log(status)
+    var pictureNumber = Math.floor(status)
     var pictureUrl = "assets/hang" + pictureNumber + ".png"
-    $('hangmanPicture').attr("src", pictureUrl);
+    $('#hangmanPicture').attr("src", pictureUrl);
 }
