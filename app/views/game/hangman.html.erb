@@ -1,0 +1,26 @@
+<script type="text/javascript" src="hangman.js"></script>
+<h1>Evil Hangman</h1>
+
+<div class="letter_form">
+  <% if params[:notice] %>
+      <p id="notice"><%= params[:notice] %></p>
+  <% end %>
+
+  <div><h2 id="word">W_rd</h2></div>
+  <div><img id="hangmanPicture" src="assets/hang1.png" height="748" width="545"></div>
+  <div><h3>used: <span id="guessedLetters">a, b, c, d, e</span> </h3></div>
+
+
+  <form onsubmit="return false;">
+      <fieldset>
+        <div>
+          <input id="letter" type="text"></input>
+        </div>
+
+        <div>
+         <button id="guess">Guess</button>
+        </div>
+
+      </fieldset>
+  </form>
+</div>

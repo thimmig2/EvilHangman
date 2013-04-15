@@ -1,14 +1,40 @@
-<h1> Welcome
-  <%= @user.username %>
-</h1>
+<div class="page-header" xmlns="http://www.w3.org/1999/html">
+  <h1> Welcome
+    <%= @user.username %>
+  </h1>
+  <em>This is your Evil Hangman home page. View your game history and stats here or start a new game!</em>
+</div>
 
 <% if notice %>
     <p id="notice"><%= notice %></p>
 <% end %>
 
-
-<p>History Goes Here</p>
-
-<div>
-  <%= link_to 'Start New Game', hangman_path(), :method => 'GET' %>
+</br>
+<div class="container">
+  <div class="row">
+    <div class="span8">
+      <table class="table table-condensed table-hover table-striped">
+        <caption>Game History</caption>
+        <tbody>
+        <tr>
+          <td>test</td>
+          <td>test</td>
+        </tr>
+        </tbody>
+      </table>
+      <p>The Ohio State University was founded in 1870 as a land-grant university in accordance with the Morrill Act of 1862 under the name of Ohio Agricultural and Mechanical College. Initially, it was thought that one of Ohio's two existing public universities (Ohio University and Miami University) would be designated as the land-grant institution, and each engaged in a vigorous competition to win over the state legislature. At the strong urging of Governor Rutherford B. Hayes, however, it was ultimately decided to establish a new university to be located near the legislature in Columbus. </p>
+    </div>
+    <div class="span4">
+      <div class="row">
+          <div class="span2">
+             High Score:
+          </div>
+          <div class="span2">
+             10,000
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

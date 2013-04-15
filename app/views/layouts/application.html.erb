@@ -12,9 +12,9 @@
 <body>
 <% if session[:user_id] %>
     <br/>
-    <div class="navbar">
+    <div class="navbar mainnav">
       <div class="navbar-inner">
-        <a class="brand" href="#">Evil Hangman</a>
+        <strong class="brand">Evil Hangman</strong>
         <ul class="nav">
           <li><%= link_to 'Home', game_path %></li>
           <li><%= link_to 'New Game', hangman_path(), :method => 'GET' %></li>
@@ -23,7 +23,7 @@
       </div>
     </div>
 <% end %>
-<div id="main">
+<div class="main">
   <%= yield %>
 </div>
 </body>

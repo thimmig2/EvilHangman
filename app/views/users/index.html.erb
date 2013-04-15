@@ -1,9 +1,12 @@
-<h1>Listing users</h1>
+<h1>Game History</h1>
     <% if notice %>
         <p id="notice"><%= notice %></p>
     <% end %>
 
-<table class = "table table-striped">
+<div class="container">
+  <div class="row">
+    <div class="span8">
+<table class="table table-condensed table-hover table-striped">
   <tr>
     <th>Profile Image</th>
     <th>Username</th>
@@ -12,22 +15,36 @@
     <th></th>
   </tr>
 
-<% @users.each do |user| %>
-  <tr>
-    <td><%=
-        if user.profile_image_url.length > 0
-            image_tag(user.profile_image_url, :class =>'list_image')
-        else
-            "none"
-        end
-    %></td>
-    <td><%= user.username %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <% @users.each do |user| %>
+      <tr>
+        <td><%=
+            if user.profile_image_url.length > 0
+              image_tag(user.profile_image_url, :class =>'list_image')
+            else
+              "none"
+            end
+        %></td>
+        <td><%= user.username %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
 </table>
+    </div>
+
+    <div class="span4">
+      <div class="row">
+        <div class="span2">
+          High Score:
+        </div>
+        <div class="span2">
+          10,000
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <br />
 
