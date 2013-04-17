@@ -1,31 +1,57 @@
 class GameController < ApplicationController
 
   def index
+    # this page calculates history stats for currently logged in user and shows games played by others
+
+    # change the ugly format of anonymous users stored in database to a prettier version
     @user = User.find(session[:user_id])
     if @user.user_type == 1
       @user.username = "Anonymous"
     end
 
+    # get all entries and sort them by the most letters guessed right
     @historyEntries = HistoryEntry.all
     @historyEntries.sort! { |a,b| b.word.split("").reject{|letter| letter.eql?("_")}.length  <=> a.word.split("").reject{|letter| letter.eql?("_")}.length }
 
-    if HistoryEntry.find_all_by_user_id(session[:user_id]).length > 0
-      @percent=winPercent
-      @totalLetters=totalLettersGuessed
-      @totalgames=totalGamesPlayed
-      @longestword=longestWordGuessed
-      @percentletters=lettersGuessedPercent
+    # calculate stats for a user with all of their history entries
+    userEntries = HistoryEntry.find_all_by_user_id(session[:user_id])
+    if userEntries.length > 0
+      @percent=winPercent(userEntries)
+      @totalLetters=totalLettersGuessed(userEntries)
+      @totalGames= userEntries.length
+      @longestWord=longestWordGuessed(userEntries)
+      @percentLetters=lettersGuessedPercent(userEntries)
     else
+      # all stats are 0 if the user hasn't played a game yet
       @percent=0
       @totalLetters=0
-      @totalgames=0
-      @longestword=0
-      @percentletters=0
+      @totalGames=0
+      @longestWord=0
+      @percentLetters=0
     end
   end
 
-  def winPercent
-    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+
+  def hangman
+    # the logic and model for the game are contained within public/assets and were written in javascript
+  end
+
+  def save_history
+    # called by hangmanController.js and is used to save a game into the history table
+    @history_entry = HistoryEntry.new({:user_id => session[:user_id], :word => params[:word], :letters_guessed => params[:letters_guessed], :win => params[:win]})
+
+    if @history_entry.save
+      redirect_to(game_path(), notice: 'History entry was successfully created.')
+    else
+      redirect_to(game_path(), notice: 'Sorry there was adding the game history')
+    end
+  end
+
+
+# the following functions are used to calculate stats for a user
+#===============================================================
+
+  def winPercent(userHistory)
     win=0.0
     loss=0.0
     userHistory.each do |entry|
@@ -40,8 +66,7 @@ class GameController < ApplicationController
   end
 
 
-  def totalLettersGuessed
-    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+  def totalLettersGuessed(userHistory)
     totalLetters=0.0
     userHistory.each do |entry|
       hold = entry.letters_guessed.split(//)
@@ -51,15 +76,7 @@ class GameController < ApplicationController
     totalLetters
   end
 
-
-  def totalGamesPlayed
-    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
-    userHistory.length
-  end
-
-
-  def longestWordGuessed
-    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+  def longestWordGuessed(userHistory)
     max = 0
     longestWord = ""
     hold = ""
@@ -77,8 +94,7 @@ class GameController < ApplicationController
   end
 
 
-  def correctLettersGuessed
-    userHistory = HistoryEntry.find_all_by_user_id(session[:user_id])
+  def correctLettersGuessed(userHistory)
     correct=0.0
     userHistory.each do |entry|
       correct += entry.word.split(//).reject{|letter| letter.eql?("_")}.length
@@ -87,26 +103,11 @@ class GameController < ApplicationController
   end
 
 
-  def lettersGuessedPercent
-    percent = correctLettersGuessed / totalLettersGuessed * 100
+  def lettersGuessedPercent(userHistory)
+    percent = correctLettersGuessed(userHistory) / totalLettersGuessed(userHistory) * 100
     percent.round(1).to_s + "%"
   end
 
-
-
-  def hangman
-    # nothing really to do here
-  end
-
-  def save_history
-    @history_entry = HistoryEntry.new({:user_id => session[:user_id], :word => params[:word], :letters_guessed => params[:letters_guessed], :win => params[:win]})
-
-    if @history_entry.save
-      redirect_to(game_path(), notice: 'History entry was successfully created.')
-    else
-      redirect_to(game_path(), notice: 'Sorry there was adding the game history')
-    end
-  end
-
+#=================================================================
 
 end
