@@ -79,21 +79,21 @@ function handleGuess() {
 
 function updateView(usedLetter) {
 
-    // if the letter was used in the word
-    if(usedLetter == true) {
-        // update word box
-        var wordString = ""
-        var wordArray = game.getWord()
-        // replace characters not guessed yet with _'s
-        for(var i=0; i< wordArray.length; i++) {
-            if(wordArray[i] == null) {
-                wordString += "_ "
-            } else {
-                wordString += wordArray[i] + " "
-            }
+    // update word box
+    var wordString = ""
+    var wordArray = game.getWord()
+    // replace characters not guessed yet with _'s
+    for(var i=0; i< wordArray.length; i++) {
+        if(wordArray[i] == null) {
+            wordString += "_ "
+        } else {
+            wordString += wordArray[i] + " "
         }
-        $("#word").html(wordString)
-    } else {
+    }
+    $("#word").html(wordString)
+
+    // if the letter wasn't used in the word
+    if(usedLetter == false) {
         // update picture
         status += 26.0/guesses
         console.log(status)
