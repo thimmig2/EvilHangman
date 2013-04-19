@@ -1,3 +1,40 @@
+/*  Hangman Model
+
+    This file contains the model for an evil hangman game.
+    It loads in a dictionary of words and narrows down
+    word groups that have the best chance of beating the
+    user at hangman.
+
+    To initialize a hangman game use the
+    following sequence :
+
+        var game = new Hangman(numberOfGuesses)   // numberOfGuesses is is optional
+        game.startNewGame(wordLength)             // wordLength is optional
+
+    The following classes are used to interact with the
+    model after a game has been created :
+
+        guessLetter()
+            changes word class and updates current word
+
+        isOver()
+            returns true if game is over or false if not
+
+        getWord()
+            returns an array of char
+                array.length == the length of the word being guessed
+                characters that havent been filled in have a value of null
+
+        getGuessedLetters()
+            returns an array of char that contains all letters guessed so far
+
+        getPossibleWord()
+            returns a word in the class of words that are possible with
+            the current letters that are filled in
+
+*/
+
+
 
 
 function Hangman(numberOfGuesses) {
@@ -40,6 +77,9 @@ function inArray(element, array) {
     return false
 }
 
+// used to find the wordClass with the most words in
+// it according to what letter was guessed.
+// this will result in the hardest game for the user
 Hangman.prototype.findEvilWords = function(letter) {
     var wordClasses = this.buildWordClasses(letter)
     var max = 0
@@ -57,6 +97,9 @@ Hangman.prototype.findEvilWords = function(letter) {
     return maxKey
 }
 
+// finds all possible classes of words
+// a word class is all words that use the letter in
+// a certain position
 Hangman.prototype.buildWordClasses = function(letter) {
     var unknownLetters = ""
     for(var i=0; i<this.wordClass.length; i++) {
@@ -97,6 +140,7 @@ Hangman.prototype.buildWordClasses = function(letter) {
     return wordClasses
 }
 
+// initializes all game variables
 Hangman.prototype.startNewGame = function(wordLength) {
     this.initializeDictionary(wordLength)
 
@@ -105,6 +149,8 @@ Hangman.prototype.startNewGame = function(wordLength) {
     this.gameOver = false
 }
 
+// initializes the games dictionary based on the word length
+// to avoid unecessary computation later on in the game
 Hangman.prototype.initializeDictionary = function(wordLength) {
     words = document.getElementById("dictionary")
 
@@ -154,6 +200,8 @@ Hangman.prototype.initializeDictionary = function(wordLength) {
     }
 }
 
+// figures out if the user is out of guesses or if the word
+// has been completely filled in
 Hangman.prototype.isOver = function() {
     if(this.guessedLetters.length >= this.numberOfGuesses) {
         this.gameOver = true
@@ -166,14 +214,17 @@ Hangman.prototype.isOver = function() {
     return this.gameOver
 }
 
+// described at the beggining of this file
 Hangman.prototype.getWord = function() {
     return this.wordClass
 }
 
+// described at the beggining of this file
 Hangman.prototype.getGuessedLetters = function() {
     return this.guessedLetters
 }
 
+// described at the beggining of this file
 Hangman.prototype.getPossibleWord = function() {
     return this.dictionary[0]
 }
@@ -187,6 +238,8 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// compares the elements of two arrays to see if they
+// all match
 Array.prototype.compare = function(testArr) {
     if (this.length != testArr.length) return false;
     for (var i = 0; i < testArr.length; i++) {
@@ -198,6 +251,9 @@ Array.prototype.compare = function(testArr) {
     return true;
 }
 
+// finds all permutations of letters contained in a string
+// ex: "abc" will return
+//      aaa, aab, aac, abb, abc, acc, acb, bbb, etc..
 function combinations(str) {
     var fn = function(active, rest, a) {
         if (!active && !rest)
